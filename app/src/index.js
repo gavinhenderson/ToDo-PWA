@@ -10,6 +10,6 @@ if ('serviceWorker' in navigator) {
       console.log('created SW', reg);
     })
     .catch((err) => {
-      console.log('There was an error creating the SW', err);
+      console.log('There was an error creating the service worker', err);
     });
 }

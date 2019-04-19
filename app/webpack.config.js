@@ -1,6 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
-const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+
+const addVersion = (content) =>
+  content.toString().replace(/TIME/g, `'${new Date().getTime() / 1000}'`);
 
 module.exports = {
   entry: './src/index.js',
@@ -31,5 +34,16 @@ module.exports = {
     publicPath: 'http://localhost:3000',
     hotOnly: false,
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new CopyPlugin([
+      {
+        from: 'src/sw.js',
+        to: 'sw.js',
+        transform(content) {
+          return addVersion(content);
+        },
+      },
+    ]),
+  ],
 };
