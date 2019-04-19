@@ -1,13 +1,17 @@
+const { assets } = global.serviceWorkerOption;
+const assetsToCache = [...assets, './'];
+
 self.addEventListener('install', (event) => {
   console.log('V1 installing…');
+  console.log('CACHE THESE ASSETS', assetsToCache);
   console.log('install event', event);
+  self.skipWaiting();
 
-  console.log(serviceWorkerOption);
-
-  // cache a cat SVG
-  //event.waitUntil(
-  //caches.open('static-v1').then((cache) => cache.add('/cat.svg')),
-  //);
+  event.waitUntil(
+    caches.open('static-v1').then((cache) => {
+      cache.add(assetsToCache);
+    }),
+  );
 });
 
 self.addEventListener('activate', (event) => {
@@ -17,7 +21,7 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   console.log('Fetch hit on service worker');
-  console.log('fetch event', event);
+  console.log('fetch event', event.request.url);
   //const url = new URL(event.request.url);
 
   // serve the cat SVG from the cache if the request is

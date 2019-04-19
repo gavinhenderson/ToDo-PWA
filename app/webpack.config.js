@@ -29,12 +29,13 @@ module.exports = {
     contentBase: path.join(__dirname, '../docs/'),
     port: 3000,
     publicPath: 'http://localhost:3000',
-    hotOnly: true,
+    hotOnly: false,
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new ServiceWorkerWebpackPlugin({
       entry: path.join(__dirname, 'src/service-worker.js'),
+      excludes: ['*.json'],
     }),
   ],
 };
