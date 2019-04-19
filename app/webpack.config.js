@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -30,5 +31,10 @@ module.exports = {
     publicPath: 'http://localhost:3000',
     hotOnly: true,
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new ServiceWorkerWebpackPlugin({
+      entry: path.join(__dirname, 'src/service-worker.js'),
+    }),
+  ],
 };
