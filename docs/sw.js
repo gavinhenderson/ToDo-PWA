@@ -1,6 +1,3 @@
-const { assets } = global.serviceWorkerOption;
-const assetsToCache = [...assets, './'];
-
 self.addEventListener('install', (event) => {
   console.log('V1 installing…');
   console.log('CACHE THESE ASSETS', assetsToCache);

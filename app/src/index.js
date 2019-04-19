@@ -5,7 +5,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 if ('serviceWorker' in navigator) {
   const registration = navigator.serviceWorker
-    .register('/sw.js')
+    .register('sw.js')
     .then((reg) => {
       console.log('created SW', reg);
     })
