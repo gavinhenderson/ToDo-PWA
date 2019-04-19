@@ -35,6 +35,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new ServiceWorkerWebpackPlugin({
       entry: path.join(__dirname, 'src/service-worker.js'),
+      filename: '/sw.js',
       excludes: ['*.json'],
     }),
   ],
