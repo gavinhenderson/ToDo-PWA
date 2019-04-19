@@ -5,8 +5,9 @@ import runtime from 'serviceworker-webpack-plugin/lib/runtime';
 ReactDOM.render(<App />, document.getElementById('root'));
 
 if ('serviceWorker' in navigator) {
+  console.log(serviceWorkerOption.scriptURL);
   const registration = runtime
-    .register('/sw.js')
+    .register({ scriptURL: '/sw.js' })
     .then((reg) => {
       console.log('created SW', reg);
     })
