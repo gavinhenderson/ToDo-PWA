@@ -1,11 +1,11 @@
-const CACHENAME = `v-${'1555703925.519'}`;
+const CACHENAME = `v-${'1555704337.041'}`;
 
 self.oninstall = (evt) => {
-  console.log(`on install - ${'1555703925.519'}`);
+  console.log(`on install - ${'1555704337.041'}`);
 
   evt.waitUntil(
     caches.open(CACHENAME).then((cache) => {
-      return cache.addAll(['index.html', 'bundle.js']);
+      return cache.addAll(['/', '/index.html', '/bundle.js']);
     }),
   );
 
@@ -13,7 +13,7 @@ self.oninstall = (evt) => {
 };
 
 self.onactivate = (evt) => {
-  console.log(`on activate - ${'1555703925.519'}`);
+  console.log(`on activate - ${'1555704337.041'}`);
 
   evt.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -45,5 +45,5 @@ self.onfetch = (evt) => {
     );
   }
 
-  console.log(`on fetch - ${'1555703925.519'}`);
+  console.log(`on fetch - ${'1555704337.041'}`);
 };

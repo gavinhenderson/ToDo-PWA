@@ -5,7 +5,7 @@ self.oninstall = (evt) => {
 
   evt.waitUntil(
     caches.open(CACHENAME).then((cache) => {
-      return cache.addAll(['index.html', 'bundle.js']);
+      return cache.addAll(['/', '/index.html', '/bundle.js']);
     }),
   );
 
