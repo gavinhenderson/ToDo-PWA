@@ -31,12 +31,5 @@ module.exports = {
     publicPath: 'http://localhost:3000',
     hotOnly: false,
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new ServiceWorkerWebpackPlugin({
-      entry: path.join(__dirname, 'src/service-worker.js'),
-      filename: '/sw.js',
-      excludes: ['*.json'],
-    }),
-  ],
+  plugins: [new webpack.HotModuleReplacementPlugin()],
 };
