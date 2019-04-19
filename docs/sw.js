@@ -1,7 +1,7 @@
-const CACHENAME = `v-${'1555703584.178'}`;
+const CACHENAME = `v-${'1555703925.519'}`;
 
 self.oninstall = (evt) => {
-  console.log(`on install - ${'1555703584.178'}`);
+  console.log(`on install - ${'1555703925.519'}`);
 
   evt.waitUntil(
     caches.open(CACHENAME).then((cache) => {
@@ -13,7 +13,7 @@ self.oninstall = (evt) => {
 };
 
 self.onactivate = (evt) => {
-  console.log(`on activate - ${'1555703584.178'}`);
+  console.log(`on activate - ${'1555703925.519'}`);
 
   evt.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -35,7 +35,7 @@ self.onactivate = (evt) => {
 };
 
 self.onfetch = (evt) => {
-  if (event.request.url.startsWith(self.location.origin)) {
+  if (evt.request.url.startsWith(self.location.origin)) {
     evt.waitUntil(
       caches.match(evt.request).then((response) => {
         if (response) return response;
@@ -45,5 +45,5 @@ self.onfetch = (evt) => {
     );
   }
 
-  console.log(`on fetch - ${'1555703584.178'}`);
+  console.log(`on fetch - ${'1555703925.519'}`);
 };

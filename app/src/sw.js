@@ -35,7 +35,7 @@ self.onactivate = (evt) => {
 };
 
 self.onfetch = (evt) => {
-  if (event.request.url.startsWith(self.location.origin)) {
+  if (evt.request.url.startsWith(self.location.origin)) {
     evt.waitUntil(
       caches.match(evt.request).then((response) => {
         if (response) return response;
