@@ -1,39 +1,49 @@
-const DEBUG = true;
-const IGNORE = ['sockjs-node'];
-const ASSETS = ['/bundle.js', '/index.html'];
-const cacheName = `static-v${'1555699396.646'}`;
+const CACHENAME = `v-${'1555703584.178'}`;
 
-const toIgnore = (url) => IGNORE.find((current) => url.includes(current));
-const isAsset = (url) =>
-  ASSETS.find((current) => url.toString().includes(current));
+self.oninstall = (evt) => {
+  console.log(`on install - ${'1555703584.178'}`);
 
-self.addEventListener('install', (event) => {
-  if (DEBUG) console.log(`New service worker installed at: ${'1555699396.646'}`);
-});
-
-self.addEventListener('activate', (event) => {
-  if (DEBUG) console.log(`Service worker active: ${'1555699396.646'}`);
-  if (DEBUG && !navigator.onLine) console.log('OFFLINE MODE');
-
-  event.waitUntil(
-    caches.open(cacheName).then((cache) => {
-      cache.add(ASSETS);
+  evt.waitUntil(
+    caches.open(CACHENAME).then((cache) => {
+      return cache.addAll(['index.html', 'bundle.js']);
     }),
   );
-});
 
-self.addEventListener('fetch', (event) => {
-  if (toIgnore(event.request.url)) return;
+  self.skipWaiting();
+};
 
-  if (DEBUG) console.log(`Fetch hit on service worker: ${'1555699396.646'}`);
-  if (DEBUG) console.log('FetchURL:', event.request.url);
+self.onactivate = (evt) => {
+  console.log(`on activate - ${'1555703584.178'}`);
 
-  const url = new URL(event.request.url);
+  evt.waitUntil(
+    caches.keys().then((cacheNames) => {
+      const deleteOldCaches = cacheNames.map((cacheName) => {
+        console.log(cacheName);
 
-  if ((url.origin == location.origin && isAsset(url)) || url.pathname == '/') {
-    const cacheMatch = url.pathname == '/' ? '/index.html' : url.pathname;
-    console.log('Responding from cache', cacheMatch);
+        if (cacheName != CACHENAME) {
+          return caches.delete(cacheName);
+        }
 
-    // event.respondWith(caches.match(cacheMatch));
+        return Promise.resolve();
+      });
+
+      return Promise.all(deleteOldCaches);
+    }),
+  );
+
+  self.clients.claim();
+};
+
+self.onfetch = (evt) => {
+  if (event.request.url.startsWith(self.location.origin)) {
+    evt.waitUntil(
+      caches.match(evt.request).then((response) => {
+        if (response) return response;
+
+        return fetch(evt.request);
+      }),
+    );
   }
-});
+
+  console.log(`on fetch - ${'1555703584.178'}`);
+};
