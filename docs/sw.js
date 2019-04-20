@@ -1,19 +1,24 @@
-const CACHENAME = `v-${'1555704337.041'}`;
+const CACHENAME = `static-v1`;
 
-self.oninstall = (evt) => {
-  console.log(`on install - ${'1555704337.041'}`);
-
-  evt.waitUntil(
-    caches.open(CACHENAME).then((cache) => {
-      return cache.addAll(['/', '/index.html', '/bundle.js']);
+self.addEventListener('install', function(event) {
+  event.waitUntil(
+    caches.open(CACHENAME).then(function(cache) {
+      return cache
+        .addAll([
+          // your list of cache keys to store in cache
+          'bundle.js',
+          'index.html',
+          // etc.
+        ])
+        .then(() => {
+          return self.skipWaiting();
+        });
     }),
   );
-
-  self.skipWaiting();
-};
+});
 
 self.onactivate = (evt) => {
-  console.log(`on activate - ${'1555704337.041'}`);
+  console.log(`on activate - ${CACHENAME}`);
 
   evt.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -45,5 +50,5 @@ self.onfetch = (evt) => {
     );
   }
 
-  console.log(`on fetch - ${'1555704337.041'}`);
+  console.log(`on fetch - ${CACHENAME}`);
 };
