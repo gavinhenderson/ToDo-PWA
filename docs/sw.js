@@ -1,4 +1,4 @@
-const CACHENAME = `static-v1`;
+const CACHENAME = `static-v2`;
 
 self.addEventListener('install', function(event) {
   event.waitUntil(
@@ -8,6 +8,7 @@ self.addEventListener('install', function(event) {
           // your list of cache keys to store in cache
           'bundle.js',
           'index.html',
+          'manifest.json',
           // etc.
         ])
         .then(() => {
@@ -40,15 +41,21 @@ self.onactivate = (evt) => {
 };
 
 self.onfetch = (evt) => {
-  if (evt.request.url.startsWith(self.location.origin)) {
-    evt.waitUntil(
+  evt.waitUntil(
+    fetch(evt.request).catch((err) => {
       caches.match(evt.request).then((response) => {
+        console.log(evt.request.url, response);
+
         if (response) return response;
 
-        return fetch(evt.request);
-      }),
-    );
-  }
+        return new Response('<div><h2>Uh oh that did not work</h2></div>', {
+          headers: {
+            'Content-type': 'text/html',
+          },
+        });
+      });
+    }),
+  );
 
   console.log(`on fetch - ${CACHENAME}`);
 };
