@@ -1,4 +1,4 @@
-const CACHENAME = `static-v2`;
+const CACHENAME = `static-v${'1555848332.219'}`;
 
 self.addEventListener('install', function(event) {
   event.waitUntil(
@@ -41,7 +41,7 @@ self.onactivate = (evt) => {
 };
 
 self.onfetch = (evt) => {
-  evt.waitUntil(
+  evt.respondWith(
     fetch(evt.request).catch((err) => {
       caches.match(evt.request).then((response) => {
         console.log(evt.request.url, response);
