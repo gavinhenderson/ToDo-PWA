@@ -1,4 +1,7 @@
 import React from 'react';
+import Nav from './nav';
+import Drawer from './drawer';
+import './app.css';
 
 class App extends React.Component {
   constructor() {
@@ -8,6 +11,7 @@ class App extends React.Component {
 
     this.state = {
       todos: [],
+      drawerOpen: false,
       installApp: null,
     };
   }
@@ -36,7 +40,7 @@ class App extends React.Component {
     this.setState({ todos: [...this.state.todos, todo] });
   };
 
-  askForPermission() {
+  notificationPermission() {
     if (Notification) {
       Notification.requestPermission(function(status) {
         console.log('Notification permission status:', status);
@@ -44,15 +48,25 @@ class App extends React.Component {
     }
   }
 
+  toggleDrawer = () => {
+    const { drawerOpen } = this.state;
+
+    this.setState({ drawerOpen: !drawerOpen });
+  };
+
   render() {
-    const { installApp, todos } = this.state;
+    const { installApp, todos, drawerOpen } = this.state;
 
     return (
       <div>
-        <button onClick={this.askForPermission}>
-          Grant Notifications Permission
-        </button>
-        {installApp && <button onClick={installApp}>Install</button>}
+        <Nav toggleDrawer={this.toggleDrawer} />
+        <Drawer
+          toggleDrawer={this.toggleDrawer}
+          open={drawerOpen}
+          installApp={installApp}
+          notificationPermission={this.notificationPermission}
+        />
+
         <p>Add a new todo:</p>
         <input ref={this.newTodo} />
         <button onClick={this.addTodo}>Add</button>
