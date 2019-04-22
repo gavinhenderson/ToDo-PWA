@@ -36,11 +36,22 @@ class App extends React.Component {
     this.setState({ todos: [...this.state.todos, todo] });
   };
 
+  askForPermission() {
+    if (Notification) {
+      Notification.requestPermission(function(status) {
+        console.log('Notification permission status:', status);
+      });
+    }
+  }
+
   render() {
     const { installApp, todos } = this.state;
 
     return (
       <div>
+        <button onClick={this.askForPermission}>
+          Grant Notifications Permission
+        </button>
         {installApp && <button onClick={installApp}>Install</button>}
         <p>Add a new todo:</p>
         <input ref={this.newTodo} />
