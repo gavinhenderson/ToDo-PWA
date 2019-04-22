@@ -1,19 +1,35 @@
 const CACHENAME = `static-v${TIME}`;
+const ASSETS = [
+  // your list of cache keys to store in cache
+  'bundle.js',
+  'index.html',
+  'manifest.json',
+  'favicon.png',
+  // etc.
+];
+const DEBUG = true;
+
+const offlineResponse = new Response(
+  '<div><h2>Uh oh that did not work</h2></div>',
+  {
+    headers: {
+      'Content-type': 'text/html',
+    },
+  },
+);
+
+const includesHTML = (url) =>
+  url
+    .toString()
+    .toLowerCase()
+    .includes('.html');
 
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHENAME).then(function(cache) {
-      return cache
-        .addAll([
-          // your list of cache keys to store in cache
-          'bundle.js',
-          'index.html',
-          'manifest.json',
-          // etc.
-        ])
-        .then(() => {
-          return self.skipWaiting();
-        });
+      return cache.addAll(ASSETS).then(() => {
+        return self.skipWaiting();
+      });
     }),
   );
 });
@@ -42,18 +58,18 @@ self.onactivate = (evt) => {
 
 self.onfetch = (evt) => {
   evt.respondWith(
-    fetch(evt.request).catch((err) => {
-      caches.match(evt.request).then((response) => {
-        console.log(evt.request.url, response);
+    caches.match(evt.request).then((response) => {
+      console.log('Responding with CACHE to:', evt.request.url);
+      if (response) return response;
 
-        if (response) return response;
+      if (!navigator.onLine && includesHTML(evt.request.url)) {
+        if (DEBUG)
+          console.log('Responding with OFFLINE MESSAGE to:', evt.request.url);
+        return offlineResponse;
+      }
 
-        return new Response('<div><h2>Uh oh that did not work</h2></div>', {
-          headers: {
-            'Content-type': 'text/html',
-          },
-        });
-      });
+      if (DEBUG) console.log('Responding with FETCH to:', evt.request.url);
+      return fetch(evt.request);
     }),
   );
 
