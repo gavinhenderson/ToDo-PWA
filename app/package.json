@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "dev:watch": "webpack --watch --mode development",
-    "dev:host": "cd ../docs && http-server",
+    "dev:host": "cd ../docs && http-server -S -C ../keys/localhost.crt -K ../keys/localhost.key -p 8000",
     "dev": "concurrently \"npm run dev:watch\" \"npm run dev:host\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
