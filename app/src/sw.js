@@ -1,13 +1,6 @@
 const CACHENAME = `static-v${__TIME__}`;
-const ASSETS = [
-  // your list of cache keys to store in cache
-  'bundle.js',
-  'index.html',
-  'manifest.json',
-  'favicon.png',
-  // etc.
-];
-const DEBUG = true;
+const ASSETS = ['bundle.js', 'index.html', 'manifest.json', 'favicon.png'];
+const DEBUG = __DEBUG__;
 
 const offlineResponse = new Response(`<div><h2>You are offline</h2></div>`, {
   headers: {

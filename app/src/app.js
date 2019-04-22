@@ -21,6 +21,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <button>Install</button>
         <p>Add a new todo:</p>
         <input ref={this.newTodo} />
         <button onClick={this.addTodo}>Add</button>
