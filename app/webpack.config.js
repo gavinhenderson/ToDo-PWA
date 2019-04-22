@@ -1,12 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
-const CopyPlugin = require('copy-webpack-plugin');
-
-const addVersion = (content) =>
-  content.toString().replace(/TIME/g, `'${new Date().getTime() / 1000}'`);
 
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    bundle: './src/index.js',
+    sw: './src/sw.js',
+  },
   mode: 'development',
   module: {
     rules: [
@@ -26,7 +25,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../docs/'),
     publicPath: '../docs/',
-    filename: 'bundle.js',
+    filename: '[name].js',
   },
   devServer: {
     contentBase: path.join(__dirname, '../docs/'),
@@ -34,15 +33,8 @@ module.exports = {
     publicPath: 'http://localhost:3000',
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new CopyPlugin([
-      {
-        from: 'src/sw.js',
-        to: 'sw.js',
-        transform(content) {
-          return addVersion(content);
-        },
-      },
-    ]),
+    new webpack.DefinePlugin({
+      __TIME__: JSON.stringify(new Date().getTime() / 1000),
+    }),
   ],
 };

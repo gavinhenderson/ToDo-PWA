@@ -1,4 +1,4 @@
-const CACHENAME = `static-v${TIME}`;
+const CACHENAME = `static-v${__TIME__}`;
 const ASSETS = [
   // your list of cache keys to store in cache
   'bundle.js',
@@ -9,14 +9,11 @@ const ASSETS = [
 ];
 const DEBUG = true;
 
-const offlineResponse = new Response(
-  '<div><h2>Uh oh that did not work</h2></div>',
-  {
-    headers: {
-      'Content-type': 'text/html',
-    },
+const offlineResponse = new Response(`<div><h2>You are offline</h2></div>`, {
+  headers: {
+    'Content-type': 'text/html',
   },
-);
+});
 
 const includesHTML = (url) =>
   url
