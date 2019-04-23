@@ -1,6 +1,6 @@
 {
-  "name": "Todo",
-  "short_name": "Todo",
+  "name": "Todo PWA",
+  "short_name": "ToDo",
   "start_url": "index.html",
   "icons": [
     {
