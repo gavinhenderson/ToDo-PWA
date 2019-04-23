@@ -22,12 +22,14 @@ class App extends React.Component {
       this.handleInstall.bind(this),
     );
 
-    if (Notification && Notification.permission !== 'granted') {
-      this.notificationPermission = () => {
-        Notification.requestPermission(function(status) {
-          console.log('Notification permission status:', status);
-        });
-      };
+    if ('Notification' in window) {
+      if (Notification.permission !== 'granted') {
+        this.notificationPermission = () => {
+          Notification.requestPermission(function(status) {
+            console.log('Notification permission status:', status);
+          });
+        };
+      }
     }
   }
 
