@@ -1,7 +1,7 @@
 .AddTodo_container {
   width: 100%;
-  padding: 8px;
-  padding-top: 0;
+  /*padding: 8px;
+  padding-top: 0;*/
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -22,6 +22,11 @@
 }
 
 .AddTodo_label {
-  padding: 8px !important;
-  padding-bottom: 0 !important;
+  /*padding: 8px !important;
+  padding-bottom: 0 !important;*/
+}
+
+.AddTodo_form {
+  padding: 8px;
+  margin: 8px;
 }

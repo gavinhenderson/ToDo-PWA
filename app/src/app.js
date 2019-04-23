@@ -2,6 +2,8 @@ import React from 'react';
 import Nav from './nav';
 import Drawer from './drawer';
 import AddTodo from './add-todo';
+import List from './list';
+import { withStyles } from '@material-ui/core/styles';
 import './app.css';
 
 class App extends React.Component {
@@ -55,10 +57,11 @@ class App extends React.Component {
   };
 
   render() {
+    const { classes } = this.props;
     const { installApp, todos, drawerOpen } = this.state;
 
     return (
-      <div>
+      <div className={`App_container ${classes.mainBackground}`}>
         <Nav toggleDrawer={this.toggleDrawer} />
         <Drawer
           toggleDrawer={this.toggleDrawer}
@@ -67,15 +70,14 @@ class App extends React.Component {
           notificationPermission={this.notificationPermission}
         />
         <AddTodo addTodo={this.addTodo} />
-
-        <ul>
-          {todos.map((todo, index) => (
-            <li key={`todo-${index}`}>{todo}</li>
-          ))}
-        </ul>
+        <List todos={todos} />
       </div>
     );
   }
 }
 
-export default App;
+const styles = (theme) => ({
+  mainBackground: { background: theme.palette.grey['200'] },
+});
+
+export default withStyles(styles)(App);
