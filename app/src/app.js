@@ -21,6 +21,14 @@ class App extends React.Component {
       'beforeinstallprompt',
       this.handleInstall.bind(this),
     );
+
+    if (Notification && Notification.permission !== 'granted') {
+      this.notificationPermission = () => {
+        Notification.requestPermission(function(status) {
+          console.log('Notification permission status:', status);
+        });
+      };
+    }
   }
 
   handleInstall(event) {
@@ -39,14 +47,6 @@ class App extends React.Component {
 
     this.setState({ todos: [...this.state.todos, todo] });
   };
-
-  notificationPermission() {
-    if (Notification) {
-      Notification.requestPermission(function(status) {
-        console.log('Notification permission status:', status);
-      });
-    }
-  }
 
   toggleDrawer = () => {
     const { drawerOpen } = this.state;
