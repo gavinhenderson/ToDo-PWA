@@ -24,39 +24,46 @@ class AddTodo extends React.Component {
     this.setState({ todoText: '' });
   };
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.addTodo();
+  };
+
   render() {
     const { todoText } = this.state;
-    const { updateText, addTodo } = this;
+    const { updateText, addTodo, handleSubmit } = this;
 
     return (
       <div className="AddTodo">
-        <InputLabel className="AddTodo_label">New Todo</InputLabel>
-        <div className="AddTodo_container">
-          <div className="AddTodo_input-container">
-            <TextField
-              id="outlined-full-width"
-              placeholder="eg. Get milk from the shop"
-              fullWidth
-              margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              value={todoText}
-              onChange={updateText}
-              onBlur={updateText}
-            />
+        <form onSubmit={handleSubmit}>
+          <InputLabel className="AddTodo_label">New Todo</InputLabel>
+          <div className="AddTodo_container">
+            <div className="AddTodo_input-container">
+              <TextField
+                id="outlined-full-width"
+                placeholder="eg. Get milk from the shop"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={todoText}
+                onChange={updateText}
+                onBlur={updateText}
+              />
+            </div>
+            <Button
+              className="AddTodo_button"
+              variant="contained"
+              color="primary"
+              onClick={addTodo}
+            >
+              Add
+              <Icon>add</Icon>
+            </Button>
           </div>
-          <Button
-            className="AddTodo_button"
-            variant="contained"
-            color="primary"
-            onClick={addTodo}
-          >
-            Add
-            <Icon>add</Icon>
-          </Button>
-        </div>
+        </form>
       </div>
     );
   }
