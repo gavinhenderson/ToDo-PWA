@@ -1,6 +1,7 @@
 import React from 'react';
 import Nav from './nav';
 import Drawer from './drawer';
+import AddTodo from './add-todo';
 import './app.css';
 
 class App extends React.Component {
@@ -43,10 +44,7 @@ class App extends React.Component {
     this.setState({ installApp: promptFunc });
   }
 
-  addTodo = () => {
-    const todo = this.newTodo.current.value;
-    this.newTodo.current.value = '';
-
+  addTodo = (todo) => {
     this.setState({ todos: [...this.state.todos, todo] });
   };
 
@@ -68,10 +66,8 @@ class App extends React.Component {
           installApp={installApp}
           notificationPermission={this.notificationPermission}
         />
+        <AddTodo addTodo={this.addTodo} />
 
-        <p>Add a new todo:</p>
-        <input ref={this.newTodo} />
-        <button onClick={this.addTodo}>Add</button>
         <ul>
           {todos.map((todo, index) => (
             <li key={`todo-${index}`}>{todo}</li>

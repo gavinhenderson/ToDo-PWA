@@ -1,0 +1,27 @@
+.AddTodo_container {
+  width: 100%;
+  padding: 8px;
+  padding-top: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.AddTodo {
+  margin-top: 8px;
+}
+
+.AddTodo_button {
+  margin-left: 8px !important;
+  height: 40px;
+}
+
+.AddTodo_input-container {
+  flex-grow: 1;
+}
+
+.AddTodo_label {
+  padding: 8px !important;
+  padding-bottom: 0 !important;
+}
