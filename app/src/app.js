@@ -3,6 +3,7 @@ import Nav from './nav';
 import Drawer from './drawer';
 import AddTodo from './add-todo';
 import List from './list';
+import OfflineNotification from './offline-notification';
 import { withStyles } from '@material-ui/core/styles';
 import './app.css';
 
@@ -71,6 +72,7 @@ class App extends React.Component {
         />
         <AddTodo addTodo={this.addTodo} />
         <List todos={todos} />
+        <OfflineNotification />
       </div>
     );
   }
