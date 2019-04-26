@@ -63,6 +63,14 @@ class App extends React.Component {
 
   addTodo = (todo) => {
     this.setState({ todos: [...this.state.todos, todo] });
+
+    fetch(BASE_URL + '/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ newTodo: todo }),
+    }).catch(console.log);
   };
 
   toggleDrawer = () => {

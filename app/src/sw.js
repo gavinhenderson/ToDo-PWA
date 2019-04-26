@@ -49,8 +49,10 @@ self.onactivate = (evt) => {
 self.onfetch = (evt) => {
   evt.respondWith(
     caches.match(evt.request).then((response) => {
-      console.log('Responding with CACHE to:', evt.request.url);
-      if (response) return response;
+      if (response) {
+        if (DEBUG) console.log('Responding with CACHE to:', evt.request.url);
+        return response;
+      }
 
       if (!navigator.onLine && includesHTML(evt.request.url)) {
         if (DEBUG)
