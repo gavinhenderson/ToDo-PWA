@@ -1,6 +1,7 @@
 const CACHENAME = `static-v${__TIME__}`;
 const ASSETS = ['bundle.js', 'index.html', 'manifest.json', 'favicon.png'];
 const DEBUG = __DEBUG__;
+const { BASE_URL } = require('./utils');
 
 const offlineResponse = new Response(`<div><h2>You are offline</h2></div>`, {
   headers: {
@@ -48,7 +49,8 @@ self.onactivate = (evt) => {
 
 self.onfetch = (evt) => {
   evt.respondWith(
-    caches.match(evt.request).then((response) => {
+    (async () => {
+      const response = await caches.match(evt.request);
       if (response) {
         if (DEBUG) console.log('Responding with CACHE to:', evt.request.url);
         return response;
@@ -62,7 +64,7 @@ self.onfetch = (evt) => {
 
       if (DEBUG) console.log('Responding with FETCH to:', evt.request.url);
       return fetch(evt.request);
-    }),
+    })(),
   );
 
   console.log(`on fetch - ${CACHENAME}`);

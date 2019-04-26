@@ -18,6 +18,9 @@ class App extends React.Component {
       todos: [],
       drawerOpen: false,
       installApp: null,
+      queue: [],
+      open: false,
+      message: '',
     };
   }
 
@@ -38,6 +41,14 @@ class App extends React.Component {
         };
       }
     }
+
+    window.addEventListener('online', () => {
+      this.addToQueue('Navigator has come back online');
+    });
+
+    window.addEventListener('offline', () => {
+      this.addToQueue('Navigator has gone offline');
+    });
   }
 
   updateTodos() {
@@ -79,9 +90,35 @@ class App extends React.Component {
     this.setState({ drawerOpen: !drawerOpen });
   };
 
+  dispatchEvent() {
+    const latest = this.state.queue[this.state.queue.length - 1];
+
+    if (latest) {
+      this.setState({ message: latest.message, open: latest.open });
+    }
+  }
+
+  addToQueue(message) {
+    this.setState({ queue: [{ message, open: true }, ...this.state.queue] });
+
+    if (this.state.queue.length === 1) this.dispatchEvent();
+  }
+
+  handleClose = () => {
+    this.setState({
+      open: false,
+      queue: this.state.queue.slice(0, this.state.queue.length - 1),
+    });
+
+    setTimeout(() => {
+      this.dispatchEvent();
+    }, 500);
+  };
+
   render() {
     const { classes } = this.props;
-    const { installApp, todos, drawerOpen } = this.state;
+    const { installApp, todos, drawerOpen, open, message } = this.state;
+    const { handleClose } = this;
 
     return (
       <div className={`App_container ${classes.mainBackground}`}>
@@ -94,7 +131,11 @@ class App extends React.Component {
         />
         <AddTodo addTodo={this.addTodo} />
         <List todos={todos} />
-        <OfflineNotification />
+        <OfflineNotification
+          open={open}
+          message={message}
+          handleClose={handleClose}
+        />
       </div>
     );
   }
