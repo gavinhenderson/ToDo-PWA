@@ -20,7 +20,7 @@ const Todo = mongoose.model('Todo');
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => res.send('Hello World!!'));
+app.get('/', (req, res) => res.send({ data: 'Hello World!!' }));
 
 app.post('/add', (req, res) => {
   const { newTodo } = req.body;

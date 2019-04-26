@@ -5,6 +5,7 @@ import AddTodo from './add-todo';
 import List from './list';
 import OfflineNotification from './offline-notification';
 import { withStyles } from '@material-ui/core/styles';
+import { BASE_URL } from './utils';
 import './app.css';
 
 class App extends React.Component {
@@ -21,6 +22,13 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    fetch(BASE_URL + '/')
+      .then((response) => {
+        //console.log(response);
+        response.json().then(console.log);
+      })
+      .catch(console.log);
+
     window.addEventListener(
       'beforeinstallprompt',
       this.handleInstall.bind(this),

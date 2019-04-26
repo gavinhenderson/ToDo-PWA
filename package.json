@@ -1,6 +1,11 @@
 {
   "scripts": {
     "heroku-prebuild": "cd server && npm install",
-    "start": "cd server && npm start"
+    "start": "cd server && npm start",
+    "dev": "concurrently \"cd app && npm run dev\" \"cd server && npm run dev\"",
+    "gh-pages": "cd app && npm run build"
+  },
+  "dependencies": {
+    "concurrently": "^4.1.0"
   }
 }

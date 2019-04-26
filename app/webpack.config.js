@@ -3,6 +3,10 @@ const webpack = require('webpack');
 
 module.exports = (env, argv) => {
   const SW_DEBG = argv.mode === 'development';
+  const BASEURL =
+    argv.mode === 'development'
+      ? 'http://localhost:3000'
+      : 'https://todo-pwa-backend.herokuapp.com';
 
   return {
     entry: {
@@ -38,6 +42,7 @@ module.exports = (env, argv) => {
       new webpack.DefinePlugin({
         __TIME__: JSON.stringify(new Date().getTime() / 1000),
         __DEBUG__: JSON.stringify(SW_DEBG),
+        __BASEURL__: JSON.stringify(BASEURL),
       }),
     ],
   };
