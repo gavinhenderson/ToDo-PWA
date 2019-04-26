@@ -22,12 +22,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch(BASE_URL + '/')
-      .then((response) => {
-        //console.log(response);
-        response.json().then(console.log);
-      })
-      .catch(console.log);
+    this.updateTodos();
 
     window.addEventListener(
       'beforeinstallprompt',
@@ -43,6 +38,17 @@ class App extends React.Component {
         };
       }
     }
+  }
+
+  updateTodos() {
+    fetch(BASE_URL + '/list')
+      .then((response) => {
+        response.json().then((body) => {
+          let todos = body.todos.map((current) => current.todo);
+          this.setState({ todos });
+        });
+      })
+      .catch(console.log);
   }
 
   handleInstall(event) {
