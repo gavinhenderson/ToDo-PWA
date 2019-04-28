@@ -26,8 +26,6 @@ const TodoList = (props) => {
 };
 
 const styles = (theme) => {
-  // console.log(theme);
-
   return {
     background: {
       backgroundColor: theme.palette.background.paper,
