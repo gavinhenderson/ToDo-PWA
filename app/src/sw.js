@@ -1,5 +1,5 @@
 const CACHENAME = `static-v${__TIME__}`;
-const ASSETS = ['bundle.js', 'index.html', 'manifest.json', 'favicon.png'];
+const ASSETS = ['bundle.js', 'index.html', 'manifest.json', 'favicon.png', '/'];
 const DEBUG = __DEBUG__;
 const { BASE_URL } = require('./utils');
 
@@ -63,9 +63,7 @@ self.onfetch = (evt) => {
       }
 
       if (DEBUG) console.log('Responding with FETCH to:', evt.request.url);
-      return fetch(evt.request);
+      return await fetch(evt.request);
     })(),
   );
-
-  console.log(`on fetch - ${CACHENAME}`);
 };
