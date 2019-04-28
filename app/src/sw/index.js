@@ -2,6 +2,8 @@ const CACHENAME = `static-v${__TIME__}`;
 const ASSETS = ['bundle.js', 'index.html', 'manifest.json', 'favicon.png', '/'];
 const DEBUG = __DEBUG__;
 const listHandler = require('./list-handler');
+const { onlineHandler, offlineHandler } = require('./online-offline-handler');
+
 const { BASE_URL } = require('../utils');
 
 const offlineResponse = new Response(`<div><h2>You are offline</h2></div>`, {
@@ -73,3 +75,10 @@ self.onfetch = (evt) => {
     })(),
   );
 };
+
+self.addEventListener('message', (event) => {
+  if (DEBUG) console.log('Message recieved:', event.data);
+
+  if (event.data === 'online') onlineHandler();
+  if (event.data === 'offline') offlineHandler();
+});

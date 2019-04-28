@@ -48,10 +48,24 @@ class App extends React.Component {
       setTimeout(() => {
         this.updateTodos();
       }, 5000);
+
+      if (
+        navigator &&
+        navigator.serviceWorker &&
+        navigator.serviceWorker.controller
+      )
+        navigator.serviceWorker.controller.postMessage('online');
     });
 
     window.addEventListener('offline', () => {
       this.addToQueue('Navigator has gone offline');
+
+      if (
+        navigator &&
+        navigator.serviceWorker &&
+        navigator.serviceWorker.controller
+      )
+        navigator.serviceWorker.controller.postMessage('offline');
     });
   }
 
