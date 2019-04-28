@@ -44,6 +44,10 @@ class App extends React.Component {
 
     window.addEventListener('online', () => {
       this.addToQueue('Navigator has come back online');
+
+      setTimeout(() => {
+        this.updateTodos();
+      }, 5000);
     });
 
     window.addEventListener('offline', () => {
