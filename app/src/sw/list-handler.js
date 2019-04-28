@@ -1,5 +1,5 @@
 const DEBUG = __DEBUG__;
-const { updateList, getList } = require('./idb');
+const { updateList, getList, addTodoOffline, getUnadded } = require('./idb');
 
 const handleList = async (request) => {
   try {
@@ -12,18 +12,14 @@ const handleList = async (request) => {
 
     await updateList(rawTodos);
 
-    console.log('RAW TODOS', rawTodos);
-    console.log('cloned - Result', clonedResult);
-
     return result;
   } catch (e) {
-    console.log(e);
-
     const list = await getList();
+    const unAdded = await getUnadded();
 
-    console.log('LIST', list);
+    const fullList = [...list, ...unAdded];
 
-    const mapped = list.map((current) => ({
+    const mapped = fullList.map((current) => ({
       todo: current,
     }));
 
@@ -37,7 +33,24 @@ const handleList = async (request) => {
 };
 
 const handleAdd = async (request) => {
-  return await fetch(request);
+  const cloned = request.clone();
+  try {
+    const response = await fetch(request);
+    return response;
+  } catch (e) {
+    const result = await cloned.json();
+    console.log('request', result);
+
+    const newTodo = await result.newTodo;
+    await addTodoOffline(newTodo);
+
+    const blob = new Blob([JSON.stringify({ newTodo })], {
+      type: 'application/json',
+    });
+    const response = new Response(blob);
+
+    return response;
+  }
 };
 
 module.exports = async (request) => {

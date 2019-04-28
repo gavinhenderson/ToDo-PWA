@@ -42,4 +42,12 @@ app.get('/list', (req, res) => {
   });
 });
 
+app.get('/removeAll', (req, res) => {
+  Todo.remove({}, (err) => {
+    if (err) return res.send(500, { err });
+
+    return res.send(200, { success: true });
+  });
+});
+
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));

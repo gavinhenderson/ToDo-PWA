@@ -72,10 +72,7 @@ class App extends React.Component {
   updateTodos() {
     fetch(BASE_URL + '/list')
       .then((response) => {
-        console.log('RESPONSE', response);
         response.json().then((body) => {
-          console.log('BODY', body.todos);
-
           let todos = body.todos.map((current) => current.todo);
           this.setState({ todos });
         });
