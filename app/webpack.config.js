@@ -11,7 +11,7 @@ module.exports = (env, argv) => {
   return {
     entry: {
       bundle: './src/index.js',
-      sw: './src/sw.js',
+      sw: './src/sw/index.js',
     },
     module: {
       rules: [

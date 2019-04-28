@@ -1,7 +1,8 @@
 const CACHENAME = `static-v${__TIME__}`;
 const ASSETS = ['bundle.js', 'index.html', 'manifest.json', 'favicon.png', '/'];
 const DEBUG = __DEBUG__;
-const { BASE_URL } = require('./utils');
+const listHandler = require('./list-handler');
+const { BASE_URL } = require('../utils');
 
 const offlineResponse = new Response(`<div><h2>You are offline</h2></div>`, {
   headers: {
@@ -50,6 +51,11 @@ self.onactivate = (evt) => {
 self.onfetch = (evt) => {
   evt.respondWith(
     (async () => {
+      const urlPathname = new URL(evt.request.url).pathname;
+      if (urlPathname.includes('list') || urlPathname.includes('add')) {
+        return await listHandler(evt.request);
+      }
+
       const response = await caches.match(evt.request);
       if (response) {
         if (DEBUG) console.log('Responding with CACHE to:', evt.request.url);
